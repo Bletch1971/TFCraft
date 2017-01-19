@@ -1,0 +1,174 @@
+-------------------------------------------------------------------------------
+Anvil Visual Additions
+-------------------------------------------------------------------------------
+
+1. Resources.assets.terrafirmacraft.lang
+    * en_US.lang
+    a. Added gui.Anvil.PlanCraftValue
+    b. Added gui.Anvil.ItemCraftValue
+    c. Added gui.Anvil.CraftValueDifference
+
+2. Common.com.bioxx.tfc.TileEntities
+    * TEAnvil.java
+    a. Added constants for anvil button amounts.
+    b. Replaced anvil button numbers action with constants.
+
+3. Common.com.bioxx.tfc.GUI
+    * GuiAnvil.java
+    a. Added RCV, ICV and diff to the anvil panel.
+    * GuiAnvilButton.java
+    a. Added button amounts to the tooltip of each button.
+
+-------------------------------------------------------------------------------
+Health tab Additional Information
+-------------------------------------------------------------------------------
+
+1. Resources.assets.terrafirmacraft.lang
+    * en_US.lang
+    a. Added gui.food.satifaction
+    b. Added gui.food.stomach
+    
+2. Common.com.bioxx.tfc.GUI
+    * GuiHealth.java
+    a. Added Satisfaction, Stomach and taste values to the tab.
+
+-------------------------------------------------------------------------------
+Skills tab Additional Information
+-------------------------------------------------------------------------------
+
+1. com.bioxx.tfc.GUI
+    * GuiSkills.java
+    a. overrode drawScreen().
+
+-------------------------------------------------------------------------------
+Blast Furnace Heat Bars.
+-------------------------------------------------------------------------------
+
+1.  Resources.assets.terrafirmacraft.textures.gui
+    * gui_blast_furnace.png
+    a. New image for the blast furnace gui interface.
+    
+2.  Common.com.bioxx.tfc.GUI
+    * GuiBlastFurnace.java
+    a. Replace gui texture used by the blast furnace.
+    b. Added heat bars for the ore contained within the blast furnace.
+
+-------------------------------------------------------------------------------
+Tool Rack Changes
+-------------------------------------------------------------------------------
+
+1.  Common.com.bioxx.tfc.Blocks.Devices
+    * BlockToolRack.java
+    a. Added Firestarter to the item list that can be put on the Tool Rack.
+    b. Added Flint&Steel to the item list that can be put on the Tool Rack.
+    c. Added FishingRod to the item list that can be put on the Tool Rack.
+
+-------------------------------------------------------------------------------
+Brining Recipe Changes
+-------------------------------------------------------------------------------
+
+1.	Common.com.bioxx.tfc.TileEntities
+	* TEBarrel.java
+	a. Changed the brining value from 60 to 6. 
+	
+-------------------------------------------------------------------------------
+Log Pile Changes (Gibba2807)
+-------------------------------------------------------------------------------
+
+1.	Common.com.bioxx.tfc.Blocks
+	* BlockLogPile.java
+
+2.	Common.com.bioxx.tfc.Blocks.Terrain (no longer required as of 79.18)
+	* BlockCollapsable.java
+
+3.	Common.com.bioxx.tfc.Containers	
+	* ContainerLogPile.java
+
+4.	Common.com.bioxx.tfc
+	* ClientProxy.java
+	* CommonProxy.java
+	
+5. 	Common.com.bioxx.tfc.Items.ItemBlocks
+	* ItemTorch.java
+	
+6. 	Common.com.bioxx.tfc.Items
+	* ItemLogs.java
+	
+7. 	Common.com.bioxx.tfc.Render.TESR
+	* TESRLogPile.java
+	
+8.	Common.com.bioxx.tfc.TileEntities
+	* TELogPile.java
+	
+-------------------------------------------------------------------------------
+Ingot Pile changes - allow all ingots to create piles
+-------------------------------------------------------------------------------
+
+1.	API.com.bioxx.tfc.api.Constant
+	* Global.java
+	a. added metal HCSTEEL variable.
+	
+2.  Common.com.bioxx.tfc
+	* ItemSetup.java (old TFCItems.java)
+	a. added Global.HCSTEEL = new Metal("HC Steel", HCSteelUnshaped, HCSteelIngot);
+	b. added MetalRegistry.instance.addMetal(Global.HCSTEEL, Alloy.EnumTier.TierV);
+	
+3.  Common.com.bioxx.tfc.Items
+	* ItemIngot.java
+	a. updated isPlaceable method.
+	
+4.	Resources.assets.terrafirmacraft.textures.blocks.metal
+	a. added HC Black Steel.png
+	b. added HC Blue Steel.png
+	c. added HC Red Steel.png
+	d. added HC Steel.png
+	e. added Weak Blue Steel.png
+	f. added Weak Red Steel.png
+	g. added Weak Steel.png
+
+-------------------------------------------------------------------------------
+World Generator Scale Changes
+-------------------------------------------------------------------------------
+
+1.	com.bioxx.tfc.api
+	* TFCOptions.java
+	a. added scale variables.
+	
+2.	com.bioxx.tfc
+	* TerraFirmaCraft.java
+	a. updated loadSettings to include the scale variables.
+	
+3.	com.bioxx.tfc.WorldGen
+	* WorldCacheManager.java
+	a. updated the following method to include the scale properties from TFCOptions:
+		* getRockLayerAt
+		* loadRockLayerGeneratorData
+		* getTreeLayerAt
+		* loadTreeLayerGeneratorData
+		* loadEVTLayerGeneratorData
+		* getRainfallLayerAt
+		* loadRainfallLayerGeneratorData
+		* getStabilityLayerAt
+		* loadStabilityLayerGeneratorData
+		* getPHLayerAt
+		* loadPHLayerGeneratorData
+		* getDrainageLayerAt
+		* loadDrainageLayerGeneratorData
+
+-------------------------------------------------------------------------------
+Blast Furnace Heating Changes
+-------------------------------------------------------------------------------
+
+1.	com.bioxx.tfc.TileEntities
+	* TEBlastFurnace.java
+	a. updated the cookDelay.
+	b. updated the slowCounter.
+	
+-------------------------------------------------------------------------------
+Forge Changes (storage slots maintain item heat)
+-------------------------------------------------------------------------------
+	
+1.	com.bioxx.tfc.TileEntities
+	* TEForge.java
+	a. added updateStorageItemHeat() method.
+	b. changed updateEntity() to call new method.

@@ -3,7 +3,11 @@ package com.bioxx.tfc.Render.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+
+import com.bioxx.tfc.Core.Metal.Alloy;
+import com.bioxx.tfc.TileEntities.TECrucible;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -34,7 +38,28 @@ public class RenderCrucible  implements ISimpleBlockRenderingHandler
 		renderer.renderStandardBlock(block, i, j, k);
 		renderer.setRenderBounds(s1, s1, s13, s15, s15, s15);
 		renderer.renderStandardBlock(block, i, j, k);
-		return true;
+		
+		// render any metal/alloy
+		if (renderer.overrideBlockTexture == null){
+			TECrucible te = (TECrucible) world.getTileEntity(i, j, k);
+			Alloy alloy = te.currentAlloy;
+			
+			if (alloy != null && alloy.outputType != null)
+			{
+				int color = alloy.outputType.getColor();
+				float f1 = (color >> 16 & 255) / 255.0F;
+				float f2 = (color >>  8 & 255) / 255.0F;
+				float f3 = (color       & 255) / 255.0F;
+				float h = Math.max(0.8f*(alloy.outputAmount/(float)te.MAX_UNITS), 0.01f);
+				
+				renderer.setRenderBounds(s1+0.05F, s1, s1+0.05F, s15-0.05F, s1+h, s15-0.05F);
+				IIcon still = te.temperature > 0 ?  alloy.outputType.getFlowingIcon() : alloy.outputType.getStillIcon();
+				renderer.setOverrideBlockTexture(still);
+				renderer.renderStandardBlockWithColorMultiplier(block, i, j, k, f1, f2, f3);
+				renderer.clearOverrideBlockTexture();				
+			}
+		}
+		return false;
 	}
 
 	@Override

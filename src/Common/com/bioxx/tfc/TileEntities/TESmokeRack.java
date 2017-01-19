@@ -140,8 +140,16 @@ public class TESmokeRack extends NetworkTileEntity implements IInventory
 			if (getStackInSlot(i) != null)
 			{
 				ItemStack is = getStackInSlot(i);
+				// record the dried state
+				Boolean isDriedBefore = Food.isDried(is);
 				Food.setDried(is, (int) TFC_Time.getTotalHours() - this.driedCounter[i]);
 				driedCounter[i] = (int) (TFC_Time.getTotalHours() - Food.getDried(is));
+				// record the new dried state
+				Boolean isDriedAfter = Food.isDried(is);
+				
+				// if the dried state has changed, mark for update 
+				if (isDriedBefore != isDriedAfter)
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 
 		}

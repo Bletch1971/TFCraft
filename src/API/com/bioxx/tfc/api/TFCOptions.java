@@ -60,6 +60,14 @@ public class TFCOptions
 	public static int lavaFissureRarity = 25;
 	public static int waterFissureRarity = 90;
 
+	public static double worldGenRockScale = 1.0;
+	public static double worldGenTreeScale = 1.0;
+	public static double worldGenEVTScale = 1.0;
+	public static double worldGenRainfallScale = 1.0;
+	public static double worldGenStabilityScale = 1.0;
+	public static double worldGenPHScale = 1.0;
+	public static double worldGenDrainageScale = 1.0;
+	
 	// Crops
 	public static boolean enableCropsDie;
 	public static float cropGrowthMultiplier = 1.0f;

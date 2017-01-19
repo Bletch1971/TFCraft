@@ -2174,6 +2174,10 @@ tile.LavaStationary.name=Lava
 gui.Anvil.Plans=Plans
 gui.Anvil.Weld=Weld
 
+gui.Anvil.PlanCraftValue=RCV
+gui.Anvil.ItemCraftValue=ICV
+gui.Anvil.CraftValueDifference=diff
+
 gui.Anvil.LightHit=Light Hit
 gui.Anvil.MediumHit=Medium Hit
 gui.Anvil.HeavyHit=Heavy Hit
@@ -2465,6 +2469,9 @@ gui.food.salted=Salted
 gui.FoodHeat.Cold=Cold
 gui.FoodHeat.Warm=Warm
 
+gui.food.satifaction=Satifact
+gui.food.stomach=Stomach
+
 gui.showtaste=§8Taste: (Hold §fL-Ctrl§8)
 gui.taste=§8Taste:
 gui.taste.sweet=Sweet
@@ -2472,6 +2479,7 @@ gui.taste.sour=Sour
 gui.taste.salty=Salty
 gui.taste.bitter=Bitter
 gui.taste.savory=Savory
+gui.taste.factor=Taste Factor
 
 gui.taste.novice.sweet1=Sweet
 gui.taste.novice.sweet0=Not Sweet

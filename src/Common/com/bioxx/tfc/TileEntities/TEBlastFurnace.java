@@ -155,7 +155,7 @@ public class TEBlastFurnace extends TEFireEntity implements IInventory
 
 				oreCount--;
 				charcoalCount--;
-				cookDelay = 100; // Five seconds (20 tps) until the next piece of ore can be smelted
+				cookDelay = 20; // One second (20 tps) until the next piece of ore can be smelted
 				fireItemStacks[i] = null; // Delete cooked item
 
 				/*
@@ -288,7 +288,7 @@ public class TEBlastFurnace extends TEFireEntity implements IInventory
 		{
 			charcoalCount--;
 
-			fuelTimeLeft = 1875;
+			fuelTimeLeft = 3000;
 			fuelBurnTemp = 1400;
 		}
 		else
@@ -522,8 +522,11 @@ public class TEBlastFurnace extends TEFireEntity implements IInventory
 			if (cookDelay > 0)
 				cookDelay--;
 
+			Boolean performUpdateGui = false;
 			for (int i = 0; i < fireItemStacks.length && isValid; i++)
 			{
+				if (fireItemStacks[i] == null) continue;
+				
 				/* Handle temperature for each item in the stack */
 				careForInventorySlot(fireItemStacks[i]);
 				/* Cook each input item */
@@ -531,11 +534,16 @@ public class TEBlastFurnace extends TEFireEntity implements IInventory
 				{
 					cookItem(i);
 				}
+				
+				performUpdateGui = true;
 			}
 
-			// Every 5 seconds we do a validity check and update the molten ore
+			if (performUpdateGui)
+				updateGui();
+			
+			// Every 2 seconds we do a validity check and update the molten ore
 			// count
-			if (slowCounter > 100)
+			if (slowCounter > 40)
 			{
 				// Here we make sure that the forge is valid
 				isValid = checkValidity();
@@ -754,4 +762,8 @@ public class TEBlastFurnace extends TEFireEntity implements IInventory
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
+	public int getMaxValidStackSize()
+	{
+		return maxValidStackSize;
+	}
 }

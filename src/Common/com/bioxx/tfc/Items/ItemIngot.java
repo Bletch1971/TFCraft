@@ -184,11 +184,13 @@ public class ItemIngot extends ItemTerra implements ISmeltable
 
 	public boolean isPlaceable(ItemStack is)
 	{
-		Item id = is.getItem();
+//		Item id = is.getItem();
+//
+//		return !(id == TFCItems.weakSteelIngot || id == TFCItems.highCarbonSteelIngot || id == TFCItems.highCarbonBlackSteelIngot || 
+//				id == TFCItems.weakRedSteelIngot || id == TFCItems.weakBlueSteelIngot || 
+//				id == TFCItems.highCarbonRedSteelIngot || id == TFCItems.highCarbonBlueSteelIngot);
 
-		return !(id == TFCItems.weakSteelIngot || id == TFCItems.highCarbonSteelIngot || id == TFCItems.highCarbonBlackSteelIngot || 
-				id == TFCItems.weakRedSteelIngot || id == TFCItems.weakBlueSteelIngot || 
-				id == TFCItems.highCarbonRedSteelIngot || id == TFCItems.highCarbonBlueSteelIngot);
+		return true;
 	}
 
 	@Override

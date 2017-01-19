@@ -840,6 +840,7 @@ public class EntityCowTFC extends EntityCow implements IAnimal
 		nbt.setFloat("MateAggro", mateAggroMod);
 		nbt.setFloat("MateObed", mateObedMod);
 		nbt.setLong("ConceptionTime", timeOfConception);
+		nbt.setLong("PregnancyRequiredTime",pregnancyRequiredTime);
 		nbt.setInteger("Age", getBirthDay());
 		nbt.setLong("HasMilkTime", hasMilkTime);
 		nbt.setBoolean("CanMilk", canMilk);

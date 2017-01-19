@@ -41,6 +41,15 @@ import com.bioxx.tfc.api.Events.AnvilCraftEvent;
 
 public class TEAnvil extends NetworkTileEntity implements IInventory
 {
+	public static final int CRAFTVALUE_HAMMER1 = -3;
+	public static final int CRAFTVALUE_HAMMER2 = -6;
+	public static final int CRAFTVALUE_HAMMER3 = -9;
+	public static final int CRAFTVALUE_DRAW = -15;
+	public static final int CRAFTVALUE_PUNCH = 2;
+	public static final int CRAFTVALUE_BEND = 7;
+	public static final int CRAFTVALUE_UPSET = 13;
+	public static final int CRAFTVALUE_SHRINK = 16;
+	
 	public ItemStack anvilItemStacks[];
 
 	public int itemCraftingValue;
@@ -416,7 +425,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(-9);
+				setItemCraftingValue(CRAFTVALUE_HAMMER3);
 				updateRules(0,1);
 				damageHammer();
 			}
@@ -431,7 +440,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(-3);
+				setItemCraftingValue(CRAFTVALUE_HAMMER1);
 				updateRules(0,1);
 				damageHammer();
 			}
@@ -447,7 +456,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(-15);
+				setItemCraftingValue(CRAFTVALUE_DRAW);
 				updateRules(1,1);
 				damageHammer();
 			}
@@ -463,7 +472,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(-6);
+				setItemCraftingValue(CRAFTVALUE_HAMMER2);
 				updateRules(0,1);
 				damageHammer();
 			}
@@ -479,7 +488,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(2);
+				setItemCraftingValue(CRAFTVALUE_PUNCH);
 				updateRules(3,1);
 				damageHammer();
 			}
@@ -495,7 +504,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(7);
+				setItemCraftingValue(CRAFTVALUE_BEND);
 				updateRules(4,1);
 				damageHammer();
 			}
@@ -511,7 +520,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(13);
+				setItemCraftingValue(CRAFTVALUE_UPSET);
 				updateRules(5,1);
 				damageHammer();
 			}
@@ -527,7 +536,7 @@ public class TEAnvil extends NetworkTileEntity implements IInventory
 			if(canBeWorked())
 			{
 				workedRecently = LAG_FIX_DELAY;
-				setItemCraftingValue(16);
+				setItemCraftingValue(CRAFTVALUE_SHRINK);
 				updateRules(6,1);
 				damageHammer();
 			}

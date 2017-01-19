@@ -3,6 +3,7 @@ package com.bioxx.tfc.Items.Tools;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -225,5 +226,16 @@ public class ItemCustomBucketMilk extends ItemTerra implements IFood
 	public boolean renderWeight() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int i, boolean isSelected)
+	{
+		super.onUpdate(is, world, entity, i, isSelected);
+		
+		if (!is.hasTagCompound())
+		{
+			createTag(is, 20);
+		}
 	}
 }

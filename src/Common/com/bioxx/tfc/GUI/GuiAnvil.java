@@ -139,6 +139,18 @@ public class GuiAnvil extends GuiContainerTFC
 				int s0 = (int) (anvilTE.workRecipe.getSkillMult(player) * 1000);
 				float s1 = s0 / 10f;
 				fontRendererObj.drawString("Skill: " + s1 + "%", guiLeft + 150, guiTop + 8, 0xff6000);
+				
+				int craftingValue = anvilTE.getCraftingValue();
+				int itemCraftingValue = anvilTE.getItemCraftingValue();
+				int craftingValueDifference = craftingValue - itemCraftingValue;
+				fontRendererObj.drawString(TFC_Core.translate("gui.Anvil.PlanCraftValue")+": "+craftingValue, guiLeft+150, guiTop+24, 0xfff200);
+				fontRendererObj.drawString(TFC_Core.translate("gui.Anvil.ItemCraftValue")+": "+itemCraftingValue, guiLeft+150, guiTop+32, 0xfff200);
+				if (craftingValueDifference == 0)
+					fontRendererObj.drawString(TFC_Core.translate("gui.Anvil.CraftValueDifference")+": "+craftingValueDifference, guiLeft+150, guiTop+40, 0xffffff);
+				if (craftingValueDifference < 0)
+					fontRendererObj.drawString(TFC_Core.translate("gui.Anvil.CraftValueDifference")+": "+Math.abs(craftingValueDifference), guiLeft+150, guiTop+40, 0xff0000);
+				else
+					fontRendererObj.drawString(TFC_Core.translate("gui.Anvil.CraftValueDifference")+": "+craftingValueDifference, guiLeft+150, guiTop+40, 0x00ff00);
 			}
 
 			drawItemRulesImages(guiLeft, guiTop);

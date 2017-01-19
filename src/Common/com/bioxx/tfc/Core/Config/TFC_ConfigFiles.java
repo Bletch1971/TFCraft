@@ -437,6 +437,16 @@ public class TFC_ConfigFiles
 		goldPanLimit = generalConfig.getInt("goldPanLimit", OVERWORKED, goldPanLimit, 1, 500, "The overworked cap for filling a gold pan in a specific chunk. Both filling a gold pan or using a sluice in the chunk count towards this value.", "config.gui.TFCConfig.overworked.goldPanLimit");
 		sluiceLimit = generalConfig.getInt("sluiceLimit", OVERWORKED, sluiceLimit, 1, 3000, "The overworked cap for a sluice scanning one soil unit in a specific chunk. Both filling a gold pan or using a sluice in the chunk count towards this value", "config.gui.TFCConfig.overworked.sluiceLimit");
 
+		generalConfig.setCategoryLanguageKey("Udary", "config.gui.TFCConfig.udary");
+
+		worldGenDrainageScale = generalConfig.getFloat("worldGenDrainageScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenEVTScale = generalConfig.getFloat("worldGenEVTScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenPHScale = generalConfig.getFloat("worldGenPHScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenRainfallScale = generalConfig.getFloat("worldGenRainfallScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenRockScale = generalConfig.getFloat("worldGenRockScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenStabilityScale = generalConfig.getFloat("worldGenStabilityScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+		worldGenTreeScale = generalConfig.getFloat("worldGenTreeScale", "Udary", 1.0f, 1.0f, 10.0f, "Scales the world generation to allow for more common rock/biome transitions.");
+
 		if (!generalConfig.hasCategory(COLORS)) // Migrate old colors to there new homes
 		{
 			for (String catName : COLOR_CATEGORIES)

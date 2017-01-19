@@ -74,34 +74,35 @@ public class ItemLogs extends ItemTerra
 
 	public boolean isValid(World world, int i, int j, int k)
 	{
-		if(world.isSideSolid(i, j-1, k, ForgeDirection.UP))
-		{
-			TileEntity te = world.getTileEntity(i, j-1, k);
-
-			if (te instanceof TELogPile)
-			{
-				TELogPile lp = (TELogPile)te;
-
-				if (lp.storage[0] == null || lp.storage[0].stackSize < 4)
-				{
-					return false;
-				}
-				if (lp.storage[1] == null || lp.storage[1].stackSize < 4)
-				{
-					return false;
-				}
-				if (lp.storage[2] == null || lp.storage[2].stackSize < 4)
-				{
-					return false;
-				}
-				if (lp.storage[3] == null || lp.storage[3].stackSize < 4)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
+// *** log pile changes ***
+//		if(world.isSideSolid(i, j-1, k, ForgeDirection.UP))
+//		{
+//			TileEntity te = world.getTileEntity(i, j-1, k);
+//
+//			if (te instanceof TELogPile)
+//			{
+//				TELogPile lp = (TELogPile)te;
+//
+//				if(lp != null)
+//				{
+//					if(lp.storage[0] == null || lp.storage[0].stackSize < 4) {
+//						return false;
+//					}
+//					if(lp.storage[1] == null || lp.storage[1].stackSize < 4) {
+//						return false;
+//					}
+//					if(lp.storage[2] == null || lp.storage[2].stackSize < 4) {
+//						return false;
+//					}
+//					if(lp.storage[3] == null || lp.storage[3].stackSize < 4) {
+//						return false;
+//					}
+//				}
+//			}
+//			return true;
+//		}
+//		return false;
+		return world.isSideSolid(i, j-1, k, ForgeDirection.UP);
 	}
 
 	@Override
@@ -193,6 +194,8 @@ public class ItemLogs extends ItemTerra
 					}
 					playSound(world, x, y, z);
 					itemstack.stackSize = itemstack.stackSize-1;
+// *** log pile changes ***
+					world.markBlockForUpdate(x, y, z);
 					return true;
 				}
 

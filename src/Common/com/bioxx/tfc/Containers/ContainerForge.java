@@ -97,8 +97,8 @@ public class ContainerForge extends ContainerTFC
 							break;
 						}
 					}
-					if (j > 0 && !this.mergeItemStack(slotStack, 10, 14, false))
-						return null;
+//					if (j > 0 && !this.mergeItemStack(slotStack, 10, 14, false))
+//						return null;
 				}
 				// First try input slots, then storage
 				else if (!this.mergeItemStack(slotStack, 0, 5, false) && !this.mergeItemStack(slotStack, 10, 14, false))

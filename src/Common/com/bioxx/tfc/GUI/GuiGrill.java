@@ -1,5 +1,7 @@
 package com.bioxx.tfc.GUI;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -38,5 +40,19 @@ public class GuiGrill extends GuiContainerTFC
 			scale = fireTE.getTemperatureScaled(49);
 
 		drawTexturedModalRect(guiLeft + 7, guiTop + 65 - scale, 0, 86, 15, 6);
+	}
+	
+	@Override
+	public void drawScreen(int i, int j, float par3) 
+	{
+		super.drawScreen(i, j, par3);
+
+		if (this.mouseInRegion(11, 17, 9, 52, i, j))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+(int)fireTE.fireTemp);
+			
+			this.drawHoveringText(list, i, j+8, this.fontRendererObj);
+		}
 	}
 }

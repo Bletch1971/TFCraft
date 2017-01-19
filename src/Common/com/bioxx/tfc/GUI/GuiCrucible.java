@@ -1,5 +1,6 @@
 package com.bioxx.tfc.GUI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -95,6 +96,14 @@ public class GuiCrucible extends GuiContainerTFC
 				List<String> temp = Arrays.asList(text);
 				drawHoveringText(temp, par1, par2, fontRendererObj);
 			}
+		}
+		
+		if (this.mouseInRegion(156, 31, 9, 52, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+(int)crucibleTE.temperature);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
 		}
 	}
 }

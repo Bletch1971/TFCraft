@@ -103,4 +103,13 @@ public class ContainerLogPile extends ContainerTFC
 	{
 		return player;
 	}
+	
+// *** log pile changes ***
+	/**
+	 * Is this container linked to the passed TELogPile 
+	 */
+	public boolean isLinkedLogPile(TELogPile te)
+	{
+		return te == logpile;
+	}
 }

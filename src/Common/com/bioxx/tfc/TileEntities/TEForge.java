@@ -2,20 +2,27 @@ package com.bioxx.tfc.TileEntities;
 
 import java.util.Random;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
 import com.bioxx.tfc.Core.TFC_Core;
+import com.bioxx.tfc.GUI.GuiForge;
 import com.bioxx.tfc.Items.ItemBloom;
 import com.bioxx.tfc.Items.ItemMeltedMetal;
 import com.bioxx.tfc.api.*;
 import com.bioxx.tfc.api.Enums.EnumFuelMaterial;
 import com.bioxx.tfc.api.Interfaces.ISmeltable;
 import com.bioxx.tfc.api.TileEntities.TEFireEntity;
+
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class TEForge extends TEFireEntity implements IInventory
 {
@@ -403,16 +410,17 @@ public class TEForge extends TEFireEntity implements IInventory
 			careForInventorySlot(fireItemStacks[3]);
 			careForInventorySlot(fireItemStacks[4]);
 
-			ItemStack[] fuelStack = new ItemStack[9];
+			ItemStack[] fuelStack = new ItemStack[5];
 			fuelStack[0] = fireItemStacks[5];
 			fuelStack[1] = fireItemStacks[6];
 			fuelStack[2] = fireItemStacks[7];
 			fuelStack[3] = fireItemStacks[8];
 			fuelStack[4] = fireItemStacks[9];
-			fuelStack[5] = fireItemStacks[10];
-			fuelStack[6] = fireItemStacks[11];
-			fuelStack[7] = fireItemStacks[12];
-			fuelStack[8] = fireItemStacks[13];
+			// these slots are now managed by the updateStorageItemHeat() method.
+			//fuelStack[5] = fireItemStacks[10];
+			//fuelStack[6] = fireItemStacks[11];
+			//fuelStack[7] = fireItemStacks[12];
+			//fuelStack[8] = fireItemStacks[13];
 
 			//Now we cook the input item
 			cookItem(0);
@@ -452,6 +460,9 @@ public class TEForge extends TEFireEntity implements IInventory
 				}
 
 				TFC_Core.handleItemTicking(fuelStack, worldObj, xCoord, yCoord, zCoord);
+				updateStorageItemHeat();
+				
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 			else if(fuelTimeLeft <= 0 && fireTemp >= 1 && fireItemStacks[7] != null && isSmokeStackValid)
 			{
@@ -461,6 +472,8 @@ public class TEForge extends TEFireEntity implements IInventory
 				fuelBurnTemp = m.burnTempMax;
 				fuelTasteProfile = m.ordinal();
 				fireItemStacks[7] = null;
+				
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 			else
 			{
@@ -564,5 +577,52 @@ public class TEForge extends TEFireEntity implements IInventory
 			}
 		}
 		nbt.setTag("Items", nbttaglist);
+	}
+	
+	/**
+	 * Cycles through the storage slots of the forge to update the temperature of the itemstack.
+	 * If the forge temperature is > itemstack temperature, the itemstack temperature is maintained.
+	 * If the forge temperature is < itemstack temperature, the itemstack temperature is decreased. 
+	 */
+	private void updateStorageItemHeat()
+	{
+		for (int slotIndex = 10; slotIndex <= 13; slotIndex++)
+		{
+			// check if the storage slot in empty
+			if (fireItemStacks[slotIndex] == null) continue;
+			
+			// get the slot's itemstack
+			ItemStack slotItemStack = fireItemStacks[slotIndex];
+			
+			// check if the itemstack has heat
+			if (!TFC_ItemHeat.hasTemp(slotItemStack)) continue;
+
+			// get the temp of the itemstack
+			float temp = TFC_ItemHeat.getTemp(slotItemStack);
+			
+			// check if the itemstack temp > forge temp
+			if (temp > fireTemp)
+			{
+				TFC_ItemHeat.handleItemHeat(slotItemStack);
+			}
+		}
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		readFromNBT(pkt.func_148857_g());
+		
+		GuiScreen gui = FMLClientHandler.instance().getClient().currentScreen;
+		if(gui != null && gui instanceof GuiForge)
+			((GuiForge)gui).updateScreen();
 	}
 }

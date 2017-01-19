@@ -69,6 +69,11 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 			}
 		}
 		nbt.setTag("Items", nbttaglist);
+		
+		NBTTagCompound alloyNBT = new NBTTagCompound();
+		if(currentAlloy != null)
+			currentAlloy.toNBT(alloyNBT);
+		nbt.setTag("alloyNBT", alloyNBT);
 	}
 
 	@Override
@@ -101,6 +106,12 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 			byte byte0 = nbttagcompound1.getByte("Slot");
 			if(byte0 >= 0 && byte0 < storage.length)
 				storage[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+		}
+		
+		this.currentAlloy = Alloy.loadFromNBT(nbt.getCompoundTag("alloyNBT"));
+		if (this.currentAlloy == null && metals.size() > 0)
+		{
+			updateCurrentAlloy();
 		}
 	}
 
@@ -171,6 +182,7 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 						}
 						inputTick = 0;
 						updateGui((byte) 0);
+						worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 					}
 				}
 				else if(itemToSmelt instanceof ISmeltable && (
@@ -188,6 +200,7 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 						else
 							storage[0].stackSize--;
 						updateGui((byte) 0);
+						worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 					}
 				}
 			}
@@ -247,6 +260,7 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 				((MetalPair)am).amount -= amount*percent;
 			}
 			updateCurrentAlloy();
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		return true;
 	}
@@ -425,13 +439,15 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 	@Override
 	public void handleInitPacket(NBTTagCompound nbt)
 	{
+		this.currentAlloy = Alloy.loadFromNBT(nbt.getCompoundTag("alloyNBT"));
+		this.worldObj.func_147479_m(xCoord, yCoord, zCoord);
 	}
 
 	@Override
 	public void handleDataPacket(NBTTagCompound nbt) {
 		byte action = nbt.getByte("action");
 		if(action == 0)
-			this.currentAlloy = new Alloy().fromNBT(nbt);
+			this.currentAlloy = Alloy.loadFromNBT(nbt);
 		else if(action == 1 && currentAlloy != null)
 		{
 			currentAlloy.outputAmount = nbt.getFloat("outputAmount");
@@ -444,7 +460,10 @@ public class TECrucible extends NetworkTileEntity implements IInventory
 	@Override
 	public void createInitNBT(NBTTagCompound nbt) 
 	{
-
+		NBTTagCompound alloyNBT = new NBTTagCompound();
+		if(currentAlloy != null)
+			currentAlloy.toNBT(alloyNBT);
+		nbt.setTag("alloyNBT", alloyNBT);
 	}
 
 }

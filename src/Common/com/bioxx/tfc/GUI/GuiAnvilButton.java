@@ -8,6 +8,7 @@ import net.minecraft.util.IIcon;
 import org.lwjgl.opengl.GL11;
 
 import com.bioxx.tfc.Core.TFC_Core;
+import com.bioxx.tfc.TileEntities.TEAnvil;
 import com.bioxx.tfc.api.Crafting.AnvilManager;
 import com.bioxx.tfc.api.Crafting.PlanRecipe;
 import com.bioxx.tfc.api.Enums.RuleEnum;
@@ -90,7 +91,7 @@ public class GuiAnvilButton extends GuiButton
 
 			if(field_146123_n)
 			{
-				screen.drawTooltip(x, y, this.displayString);
+				screen.drawTooltip(x, y, getDisplayString());
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			}
 		}
@@ -104,4 +105,27 @@ public class GuiAnvilButton extends GuiButton
 		mouseY -= l1;
 		return mouseX >= xPosition - 1 && mouseX < xPosition + width + 1 && mouseY >= yPosition - 1 && mouseY < yPosition + height + 1;
 	}*/
+	private String getDisplayString()
+	{
+		switch (id)
+		{
+			case 0:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_HAMMER1 + ")";
+			case 1:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_HAMMER2 + ")";
+			case 2:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_HAMMER3 + ")";
+			case 3:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_DRAW + ")";
+			case 4:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_PUNCH + ")";
+			case 5:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_BEND + ")";
+			case 6:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_UPSET + ")";
+			case 7:
+				return this.displayString + " (" + TEAnvil.CRAFTVALUE_SHRINK + ")";
+		}
+		return this.displayString;
+	}
 }

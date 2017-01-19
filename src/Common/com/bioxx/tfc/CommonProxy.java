@@ -65,7 +65,8 @@ public class CommonProxy
 
 	public void registerTileEntities(boolean b)
 	{
-		GameRegistry.registerTileEntity(TELogPile.class, "TerraLogPile");
+// *** log pile changes ***
+		//GameRegistry.registerTileEntity(TELogPile.class, "TerraLogPile");
 		GameRegistry.registerTileEntity(TEWorkbench.class, "TerraWorkbench");
 		GameRegistry.registerTileEntity(TEForge.class, "TerraForge");
 		GameRegistry.registerTileEntity(TEBlastFurnace.class, "TerraBloomery");
@@ -100,6 +101,8 @@ public class CommonProxy
 
 		if(b)
 		{
+// *** log pile changes ***
+			GameRegistry.registerTileEntity(TELogPile.class, "TerraLogPile");
 			GameRegistry.registerTileEntity(TEFirepit.class, "TerraFirepit");
 			GameRegistry.registerTileEntity(TEIngotPile.class, "ingotPile");
 			GameRegistry.registerTileEntity(TEPottery.class, "Pottery");

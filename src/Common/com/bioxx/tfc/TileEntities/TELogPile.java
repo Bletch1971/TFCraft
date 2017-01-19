@@ -1,6 +1,9 @@
 package com.bioxx.tfc.TileEntities;
 
 import java.util.ArrayDeque;
+// *** log pile changes ***
+import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 
 import net.minecraft.block.Block;
@@ -15,7 +18,12 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+// *** log pile changes ***
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
+// *** log pile changes ***
+import com.bioxx.tfc.Containers.ContainerLogPile;
 import com.bioxx.tfc.Core.TFC_Core;
 import com.bioxx.tfc.Core.TFC_Time;
 import com.bioxx.tfc.Core.Vector3f;
@@ -30,6 +38,12 @@ public class TELogPile extends TileEntity implements IInventory
 	public int fireTimer;
 	private Queue<Vector3f> blocksToBeSetOnFire;
 
+// *** log pile changes ***
+	/**
+	 * Used to keep the rendering up to date, don't update manually (use getNumberOfLogs() instead)
+	 */
+	int numberOfLogs = 0;
+	
 	public TELogPile()
 	{
 		storage = new ItemStack[4];
@@ -45,21 +59,22 @@ public class TELogPile extends TileEntity implements IInventory
 		}
 	}
 
+// *** log pile changes ***		
 	public ItemStack takeLog(int slot)
 	{
-		if(storage[slot] == null)
+//		if(storage[slot] == null)
 			return null;
-		else
-		{
-			ItemStack is = storage[slot].copy();
-			is.stackSize = 1;
-			storage[slot].stackSize--;
-			if(storage[slot].stackSize == 0)
-				storage[slot] = null;
-			if(this.getNumberOfLogs() == 0)
-				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			return is;
-		}
+//		else
+//		{
+//			ItemStack is = storage[slot].copy();
+//			is.stackSize = 1;
+//			storage[slot].stackSize--;
+//			if(storage[slot].stackSize == 0)
+//				storage[slot] = null;
+//			if(this.getNumberOfLogs() == 0)
+//				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+//			return is;
+//		}
 	}
 
 	public void clearContents()
@@ -74,11 +89,12 @@ public class TELogPile extends TileEntity implements IInventory
 	public void closeInventory()
 	{
 		--logPileOpeners;
-		if(logPileOpeners == 0 && storage[0] == null && storage[1] == null && storage[2] == null && storage[3] == null)
-		{
-			extinguishFire();
-			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-		}
+// *** log pile changes ***
+//		if(logPileOpeners == 0 && storage[0] == null && storage[1] == null && storage[2] == null && storage[3] == null)
+//		{
+//			extinguishFire();
+//			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+//		}
 	}
 
 	public boolean contentsMatch(int index, ItemStack is)
@@ -133,6 +149,32 @@ public class TELogPile extends TileEntity implements IInventory
 			}
 		}
 		extinguishFire();
+	}
+
+// *** log pile changes ***
+	/**
+	 * Closes all open containers for this logpile
+	 */
+	public void forceCloseContainers()
+	{
+		float f = 5.0F;
+		List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - f, this.yCoord - f, this.zCoord - f, this.xCoord + 1 + f, this.yCoord + 1 + f, this.zCoord + 1 + f));
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext())
+		{
+			EntityPlayer entityplayer = (EntityPlayer)iterator.next();
+
+			if (entityplayer.openContainer instanceof ContainerLogPile)
+			{
+				if(((ContainerLogPile)entityplayer.openContainer).isLinkedLogPile(this))
+				{
+					entityplayer.closeScreen();
+				}
+			}
+		}
+		
+		logPileOpeners = 0;
 	}
 
 	@Override
@@ -193,9 +235,72 @@ public class TELogPile extends TileEntity implements IInventory
 			is.stackSize = getInventoryStackLimit();
 	}
 
+// *** log pile changes ***
+//	@Override
+//	public boolean canUpdate()
+//	{
+//		return false;
+//	}
+
+// *** log pile changes ***
 	@Override
-	public boolean canUpdate()
+	public void updateEntity()
 	{
+		if(!worldObj.isSideSolid(xCoord , yCoord-1, zCoord, ForgeDirection.UP))
+		{
+			if(!mergeDown())
+			{
+				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			}
+		}
+	
+		if(getNumberOfLogs() == 0 && logPileOpeners == 0)
+		{
+			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+		}
+		
+		//Update the block so SMP clients stay in sync
+		if(this.numberOfLogs != getNumberOfLogs())
+		{
+			numberOfLogs = getNumberOfLogs();
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+	}
+	
+// *** log pile changes ***
+	public boolean mergeDown()
+	{
+		TELogPile teBelow = (TELogPile)worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
+		if(teBelow != null && teBelow instanceof TELogPile)
+		{
+			for(int i = 0; i < teBelow.getSizeInventory(); i++)
+			{
+				for(int j = 0; j < getSizeInventory(); j++)
+				{
+					if(storage[j] != null)
+					{
+						if(teBelow.storage[i] == null)
+						{
+							teBelow.setInventorySlotContents(i, decrStackSize(j, storage[j].stackSize));
+						}
+						else
+						{
+							if(teBelow.contentsMatch(i, storage[j]))
+							{
+								int logs = teBelow .getInventoryStackLimit() - teBelow.storage[i].stackSize;
+								teBelow.injectContents(i, decrStackSize(j, logs).stackSize);
+							}
+						}
+					}
+				}
+			}
+			
+			if(teBelow.getNumberOfLogs() == 16)
+			{
+				return true;
+			}
+		}
+		
 		return false;
 	}
 

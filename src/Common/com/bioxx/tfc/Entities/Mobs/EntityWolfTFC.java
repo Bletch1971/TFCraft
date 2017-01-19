@@ -1035,6 +1035,7 @@ public class EntityWolfTFC extends EntityWolf implements IAnimal, IInnateArmor, 
 		nbt.setFloat("MateAggro", mateAggroMod);
 		nbt.setFloat("MateObed", mateObedMod);
 		nbt.setLong("ConceptionTime", timeOfConception);
+		nbt.setLong("PregnancyRequiredTime",pregnancyRequiredTime);
 		nbt.setInteger("Age", getBirthDay());
 	}
 }

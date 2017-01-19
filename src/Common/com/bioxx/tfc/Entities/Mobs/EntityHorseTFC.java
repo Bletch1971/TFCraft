@@ -1224,6 +1224,7 @@ public class EntityHorseTFC extends EntityHorse implements IInvBasic, IAnimal
 		nbttc.setDouble("MateJump", mateJumpStrength);
 		nbttc.setDouble("MateSpeed", mateMoveSpeed);
 		nbttc.setLong("ConceptionTime", timeOfConception);
+		nbttc.setLong("PregnancyRequiredTime",pregnancyRequiredTime);
 		nbttc.setInteger("Age", getBirthDay());
 
 		if (this.isChested())

@@ -202,8 +202,8 @@ public class WAILAData implements IWailaDataProvider
 		else if (tileEntity instanceof TEOre)
 			currenttip = oreBody(itemStack, currenttip, accessor, config);
 
-		else if (tileEntity instanceof TEPottery)
-			currenttip = potteryBody(itemStack, currenttip, accessor, config);
+//		else if (tileEntity instanceof TEPottery)
+//			currenttip = potteryBody(itemStack, currenttip, accessor, config);
 
 		else if (tileEntity instanceof TESapling)
 			currenttip = saplingBody(itemStack, currenttip, accessor, config);
@@ -211,9 +211,9 @@ public class WAILAData implements IWailaDataProvider
 		else if (tileEntity instanceof TESluice)
 			currenttip = sluiceBody(itemStack, currenttip, accessor, config);
 
-		else if (tileEntity instanceof TESmokeRack)
-			currenttip = smokeRackBody(itemStack, currenttip, accessor, config);
-
+//		else if (tileEntity instanceof TESmokeRack)
+//			currenttip = smokeRackBody(itemStack, currenttip, accessor, config);
+		
 		else if (TFC_Core.isSoilWAILA(block))
 			currenttip = soilBody(itemStack, currenttip, accessor, config);
 

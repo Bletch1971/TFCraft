@@ -17,6 +17,7 @@ import com.bioxx.tfc.WorldGen.GenLayers.DataLayers.Rain.GenRainLayerTFC;
 import com.bioxx.tfc.WorldGen.GenLayers.DataLayers.Rock.GenRockLayer;
 import com.bioxx.tfc.WorldGen.GenLayers.DataLayers.Stability.GenStabilityLayer;
 import com.bioxx.tfc.WorldGen.GenLayers.DataLayers.Tree.GenTreeLayer;
+import com.bioxx.tfc.api.TFCOptions;
 
 public class WorldCacheManager 
 {	
@@ -257,8 +258,11 @@ public class WorldCacheManager
 		}
 	}
 
-	public DataLayer getRockLayerAt(int x, int y, int index)
+	public DataLayer getRockLayerAt(int x1, int y1, int index)
 	{
+		int x = (int) (TFCOptions.worldGenRockScale*x1);
+		int y = (int) (TFCOptions.worldGenRockScale*y1);
+
 		return this.rockCache[index].getDataLayerAt(rocksIndexLayer[index], x, y);
 	}
 
@@ -266,13 +270,19 @@ public class WorldCacheManager
 	 * Returns biomes to use for the blocks and loads the other data like temperature and humidity onto the
 	 * WorldChunkManager Args: oldBiomeList, x, z, width, depth
 	 */
-	public DataLayer[] loadRockLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height, int layer)
+	public DataLayer[] loadRockLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height, int layer)
 	{
-		return this.getDataLayerAt(rockCache.clone(), layers, rocksIndexLayer, x, y, width, height, true, layer);
+		int x = (int) (TFCOptions.worldGenRockScale*x1);
+		int y = (int) (TFCOptions.worldGenRockScale*y1);
+		
+		return this.getDataLayerAt(rockCache, layers, rocksIndexLayer, x, y, width, height, true, layer);
 	}
 
-	public DataLayer getTreeLayerAt(int x, int z, int index)
+	public DataLayer getTreeLayerAt(int x1, int z1, int index)
 	{
+		int x = (int) (TFCOptions.worldGenTreeScale*x1);
+		int z = (int) (TFCOptions.worldGenTreeScale*z1);
+		
 		return this.treeCache[index].getDataLayerAt(treesIndexLayer[index], x, z);
 	}
 
@@ -280,9 +290,12 @@ public class WorldCacheManager
 	 * Returns biomes to use for the blocks and loads the other data like temperature and humidity onto the
 	 * WorldChunkManager Args: oldBiomeList, x, z, width, depth
 	 */
-	public DataLayer[] loadTreeLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height, int layer)
+	public DataLayer[] loadTreeLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height, int layer)
 	{
-		return this.getDataLayerAt(treeCache.clone(), layers, treesIndexLayer, x, y, width, height, true, 0);
+		int x = (int) (TFCOptions.worldGenTreeScale*x1);
+		int y = (int) (TFCOptions.worldGenTreeScale*y1);
+		
+		return this.getDataLayerAt(treeCache, layers, treesIndexLayer, x, y, width, height, true, 0);
 	}
 
 	public DataLayer getEVTLayerAt(int x, int z)
@@ -294,52 +307,79 @@ public class WorldCacheManager
 	 * Returns evt map to use for the blocks
 	 * Args: layers, x, z, width, depth
 	 */
-	public DataLayer[] loadEVTLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height)
+	public DataLayer[] loadEVTLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height)
 	{
-		return this.getDataLayerAt(evtCache, layers, evtIndexLayer, x, y, width, height, true, 0); //NOPMD
+		int x = (int) (TFCOptions.worldGenEVTScale*x1);
+		int y = (int) (TFCOptions.worldGenEVTScale*y1);
+		
+		return this.getDataLayerAt(evtCache, layers, evtIndexLayer, x1, y1, width, height, true, 0);
 	}
 
-	public DataLayer getRainfallLayerAt(int x, int z)
+	public DataLayer getRainfallLayerAt(int x1, int z1)
 	{
+		int x = (int) (TFCOptions.worldGenRainfallScale*x1);
+		int z = (int) (TFCOptions.worldGenRainfallScale*z1);
+		
 		return this.rainfallCache.getDataLayerAt(rainfallIndexLayer, x, z);
 	}
 
 	/**
 	 * Returns rainfall map Args: layers, x, z, width, depth
 	 */
-	public DataLayer[] loadRainfallLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height)
+	public DataLayer[] loadRainfallLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height)
 	{
-		return this.getDataLayerAt(rainfallCache, layers, rainfallIndexLayer, x, y, width, height, true, 0); //NOPMD
+		int x = (int) (TFCOptions.worldGenRainfallScale*x1);
+		int y = (int) (TFCOptions.worldGenRainfallScale*y1);
+
+		return this.getDataLayerAt(rainfallCache, layers, rainfallIndexLayer, x, y, width, height, true, 0);
 	}
 
-	public DataLayer getStabilityLayerAt(int x, int z)
+	public DataLayer getStabilityLayerAt(int x1, int z1)
 	{
+		int x = (int) (TFCOptions.worldGenStabilityScale*x1);
+		int z = (int) (TFCOptions.worldGenStabilityScale*z1);
+
 		return this.stabilityCache.getDataLayerAt(stabilityIndexLayer, x, z);
 	}
 
-	public DataLayer[] loadStabilityLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height)
+	public DataLayer[] loadStabilityLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height)
 	{
-		return this.getDataLayerAt(stabilityCache, layers, stabilityIndexLayer, x, y, width, height, true, 0); //NOPMD
+		int x = (int) (TFCOptions.worldGenStabilityScale*x1);
+		int y = (int) (TFCOptions.worldGenStabilityScale*y1);
+
+		return this.getDataLayerAt(stabilityCache, layers, stabilityIndexLayer, x, y, width, height, true, 0);
 	}
 
-	public DataLayer getPHLayerAt(int x, int z)
+	public DataLayer getPHLayerAt(int x1, int z1)
 	{
+		int x = (int) (TFCOptions.worldGenPHScale*x1);
+		int z = (int) (TFCOptions.worldGenPHScale*z1);
+
 		DataLayer dl = this.phCache.getDataLayerAt(phIndexLayer, x, z);
 		return dl != null ? dl : DataLayer.PH_NEUTRAL;
 	}
 
-	public DataLayer[] loadPHLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height)
+	public DataLayer[] loadPHLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height)
 	{
-		return this.getDataLayerAt(phCache, layers, phIndexLayer, x, y, width, height, true, 0); //NOPMD
+		int x = (int) (TFCOptions.worldGenPHScale*x1);
+		int y = (int) (TFCOptions.worldGenPHScale*y1);
+
+		return this.getDataLayerAt(phCache, layers, phIndexLayer, x, y, width, height, true, 0);
 	}
 
-	public DataLayer getDrainageLayerAt(int x, int z)
+	public DataLayer getDrainageLayerAt(int x1, int z1)
 	{
+		int x = (int) (TFCOptions.worldGenDrainageScale*x1);
+		int z = (int) (TFCOptions.worldGenDrainageScale*z1);
+
 		return this.drainageCache.getDataLayerAt(drainageIndexLayer, x, z);
 	}
 
-	public DataLayer[] loadDrainageLayerGeneratorData(DataLayer[] layers, int x, int y, int width, int height)
+	public DataLayer[] loadDrainageLayerGeneratorData(DataLayer[] layers, int x1, int y1, int width, int height)
 	{
-		return this.getDataLayerAt(drainageCache, layers, drainageIndexLayer, x, y, width, height, true, 0); //NOPMD
+		int x = (int) (TFCOptions.worldGenDrainageScale*x1);
+		int y = (int) (TFCOptions.worldGenDrainageScale*y1);
+
+		return this.getDataLayerAt(drainageCache, layers, drainageIndexLayer, x, y, width, height, true, 0);
 	}
 }

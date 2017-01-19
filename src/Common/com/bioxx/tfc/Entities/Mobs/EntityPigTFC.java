@@ -828,6 +828,7 @@ public class EntityPigTFC extends EntityPig implements IAnimal
 		nbt.setFloat("MateAggro", mateAggroMod);
 		nbt.setFloat("MateObed", mateObedMod);
 		nbt.setLong("ConceptionTime",timeOfConception);
+		nbt.setLong("PregnancyRequiredTime",pregnancyRequiredTime);
 		nbt.setInteger("Age", getBirthDay());
 		nbt.setBoolean("Saddle", this.getSaddled());
 	}

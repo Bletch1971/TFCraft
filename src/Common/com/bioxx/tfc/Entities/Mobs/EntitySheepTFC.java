@@ -919,6 +919,7 @@ public class EntitySheepTFC extends EntitySheep implements IShearable, IAnimal
 		nbt.setFloat("MateObed", mateObedMod);
 		nbt.setInteger("MateColor", mateColor);
 		nbt.setLong("ConceptionTime", timeOfConception);
+		nbt.setLong("PregnancyRequiredTime",pregnancyRequiredTime);
 		nbt.setInteger("Age", getBirthDay());
 	}
 }

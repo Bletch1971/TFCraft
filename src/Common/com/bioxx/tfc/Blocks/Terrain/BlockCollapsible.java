@@ -72,6 +72,9 @@ public class BlockCollapsible extends BlockTerraContainer
 			return true;
 		if (block == TFCBlocks.toolRack)
 			return true;
+// *** log pile changes ***
+		if (block == TFCBlocks.logPile)
+			return !block.isSideSolid(world, x, y, z, ForgeDirection.UP);
 
 		if (block == Blocks.bedrock)
 			return false;

@@ -219,4 +219,22 @@ public class Alloy
     {
         return furnaceTier;
     }
+    
+    /**
+     * This provides a safe method for retrieving an Alloy - if the tag is invalid, the alloy
+     * will return as null.
+     */
+    public static Alloy loadFromNBT(NBTTagCompound nbt)
+    {
+        if (nbt == null)
+        {
+            return null;
+        }
+        
+        Alloy alloy = new Alloy();
+        alloy.fromNBT(nbt);
+        
+        // only return an alloy instance, if it is valid.
+        return (alloy.outputType != null ? alloy : null);
+    }
 }

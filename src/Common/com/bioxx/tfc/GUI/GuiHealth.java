@@ -1,5 +1,10 @@
 package com.bioxx.tfc.GUI;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +32,10 @@ public class GuiHealth extends GuiContainerTFC
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
+		DecimalFormat fmt = new DecimalFormat("#0.00;-#0.00");
+		
+		FoodStatsTFC food = TFC_Core.getPlayerFoodStats(player);
+
 		fontRendererObj.drawString(TFC_Core.translate("gui.food.fruit"), 5, 13, 0, false);
 		fontRendererObj.drawString(TFC_Core.translate("gui.food.vegetable"), 5, 23, 0, false);
 		fontRendererObj.drawString(TFC_Core.translate("gui.food.grain"), 5, 33, 0, false);
@@ -34,13 +43,40 @@ public class GuiHealth extends GuiContainerTFC
 		fontRendererObj.drawString(TFC_Core.translate("gui.food.dairy"), 5, 53, 0, false);
 		if (TFCOptions.enableDebugMode)
 		{
-			FoodStatsTFC food = TFC_Core.getPlayerFoodStats(player);
 			fontRendererObj.drawString(Float.toString(food.nutrFruit), 85, 13, 0, false);
 			fontRendererObj.drawString(Float.toString(food.nutrVeg), 85, 23, 0, false);
 			fontRendererObj.drawString(Float.toString(food.nutrGrain), 85, 33, 0, false);
 			fontRendererObj.drawString(Float.toString(food.nutrProtein), 85, 43, 0, false);
 			fontRendererObj.drawString(Float.toString(food.nutrDairy), 85, 53, 0, false);
 		}
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.8f, 0.8f, 0.8f);
+		
+		int xOffset = 1;
+		int yOffset = 20;
+		
+		fontRendererObj.drawString(TFC_Core.translate("gui.food.satifaction"), 5+xOffset, 63+yOffset, 0, false);
+		fontRendererObj.drawString(""+fmt.format(food.getSatisfaction()), 55+xOffset, 63+yOffset, 0, false);
+
+		fontRendererObj.drawString(TFC_Core.translate("gui.food.stomach"), 85+xOffset, 63+yOffset, 0, false);
+		fontRendererObj.drawString(""+fmt.format(food.getFoodLevel()), 130+xOffset, 63+yOffset, 0, false);
+
+		int[] tastePref = food.getPrefTaste();
+		
+		fontRendererObj.drawString(TFC_Core.translate("gui.taste.sweet"), 5+xOffset, 73+yOffset, 0);
+		fontRendererObj.drawString(TFC_Core.translate("gui.taste.sour"), 85+xOffset, 73+yOffset, 0);
+		fontRendererObj.drawString(TFC_Core.translate("gui.taste.salty"), 5+xOffset, 83+yOffset, 0);
+		fontRendererObj.drawString(TFC_Core.translate("gui.taste.bitter"), 85+xOffset, 83+yOffset, 0);
+		fontRendererObj.drawString(TFC_Core.translate("gui.taste.savory"), 5+xOffset, 93+yOffset, 0);
+
+		fontRendererObj.drawString(""+tastePref[0], 55+xOffset, 73+yOffset, 0, false);
+		fontRendererObj.drawString(""+tastePref[1], 130+xOffset, 73+yOffset, 0, false);
+		fontRendererObj.drawString(""+tastePref[2], 55+xOffset, 83+yOffset, 0, false);
+		fontRendererObj.drawString(""+tastePref[3], 130+xOffset, 83+yOffset, 0, false);
+		fontRendererObj.drawString(""+tastePref[4], 55+xOffset, 93+yOffset, 0, false);
+		
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -93,5 +129,53 @@ public class GuiHealth extends GuiContainerTFC
 			Minecraft.getMinecraft().displayGuiScreen(new GuiSkills(Minecraft.getMinecraft().thePlayer));
 		else if (guibutton.id == 2)
 			Minecraft.getMinecraft().displayGuiScreen(new GuiCalendar(Minecraft.getMinecraft().thePlayer));
+	}
+
+	@Override
+	public void drawScreen(int par1, int par2, float par3) 
+	{
+		super.drawScreen(par1, par2, par3);
+		
+		FoodStatsTFC food = TFC_Core.getPlayerFoodStats(player);
+
+		if (this.mouseInRegion(54, 13, 27, 8, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+food.nutrFruit);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
+		}
+		
+		if (this.mouseInRegion(54, 23, 27, 8, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+food.nutrVeg);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
+		}
+		
+		if (this.mouseInRegion(54, 33, 27, 8, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+food.nutrGrain);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
+		}
+		
+		if (this.mouseInRegion(54, 43, 27, 8, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+food.nutrProtein);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
+		}
+		
+		if (this.mouseInRegion(54, 53, 27, 8, par1, par2))
+		{
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(""+food.nutrDairy);
+			
+			this.drawHoveringText(list, par1, par2+8, this.fontRendererObj);
+		}
 	}
 }

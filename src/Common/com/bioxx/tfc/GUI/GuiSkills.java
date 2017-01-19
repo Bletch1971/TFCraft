@@ -1,5 +1,9 @@
 package com.bioxx.tfc.GUI;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -151,6 +155,43 @@ public class GuiSkills extends GuiContainerTFC
 				this.mouseDragged(par1Minecraft, xPos, yPos);
 
 				//this.drawCenteredString(fontrenderer,  barrel.mode==0?TFC_Core.translate("gui.Barrel.ToggleOn"):TFC_Core.translate("gui.Barrel.ToggleOff"), this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
+			}
+		}
+	}
+
+	@Override
+	public void drawScreen(int par1, int par2, float par3) 
+	{
+		super.drawScreen(par1, par2, par3);
+
+		NumberFormat fmt = NumberFormat.getPercentInstance();
+		List<SkillsManager.Skill> skillList = SkillsManager.instance.getSkillsArray();
+		SkillStats ss = TFC_Core.getSkillStats(this.player);
+
+		int x = this.guiLeft;
+		int y = this.guiTop;
+		int yOffset = 10;
+		int barLeft = 4;
+		int barWidth = 168;
+		int barHeight = 3;
+		int skillStart = this.skillsPage * SKILLS_PER_PAGE;
+		
+		for (int barCount = 1; barCount <= SKILLS_PER_PAGE; barCount++) 
+		{
+			int skillIndex = skillStart + barCount - 1;
+			if (skillIndex >= skillList.size()) 
+				break;
+
+			int barY = y + yOffset + 12 * barCount + barHeight * (barCount - 1);
+			if ((par1 >= barLeft + x) && (par1 <= barLeft + barWidth + x) && (par2 >= barY) && (par2 <= barHeight + barY)) 
+			{
+				SkillsManager.Skill skill = (SkillsManager.Skill) skillList.get(skillIndex);
+				int skillRank = ss.getSkillRaw(skill.skillName);
+				float skillPercentage = ss.getPercToNextRank(skill.skillName);
+
+				ArrayList<String> list = new ArrayList<String>();
+				list.add(skillRank + " (" + fmt.format(skillPercentage) + ")");
+				drawHoveringText(list, par1, par2, fontRendererObj);
 			}
 		}
 	}
