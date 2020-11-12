@@ -101,19 +101,19 @@ Log Pile Changes (Gibba2807)
 	* TELogPile.java
 	
 -------------------------------------------------------------------------------
-Ingot Pile changes - allow all ingots to create piles
+Ingot Pile changes - allow all ingot to create piles
 -------------------------------------------------------------------------------
 
 1.	API.com.bioxx.tfc.api.Constant
 	* Global.java
 	a. added metal HCSTEEL variable.
 	
-2.  Common.com.bioxx.tfc
+2.  	Common.com.bioxx.tfc
 	* ItemSetup.java (old TFCItems.java)
 	a. added Global.HCSTEEL = new Metal("HC Steel", HCSteelUnshaped, HCSteelIngot);
 	b. added MetalRegistry.instance.addMetal(Global.HCSTEEL, Alloy.EnumTier.TierV);
 	
-3.  Common.com.bioxx.tfc.Items
+3.  	Common.com.bioxx.tfc.Items
 	* ItemIngot.java
 	a. updated isPlaceable method.
 	
@@ -172,3 +172,42 @@ Forge Changes (storage slots maintain item heat)
 	* TEForge.java
 	a. added updateStorageItemHeat() method.
 	b. changed updateEntity() to call new method.
+
+
+***** NOT CURRENTLY IMPLEMENT *****
+
+-------------------------------------------------------------------------------
+Barrel Recipe Changes Changes
+-------------------------------------------------------------------------------
+
+1.	com.bioxx.tfc.api.Crafting
+	* BarrelRecipe.java
+	a. added isBriningRecipe()
+	b. added isPicklingRecipe()
+	c. added isPreservingRecipe()
+	d. added reduceFluidByFoodWeight()
+	
+	* BarrelBriningRecipe.java
+	a. overrode getResult()
+	b. overrode isBriningRecipe()
+	c. overrode reduceFluidByFoodWeight()
+	
+	* BarrelPicklingRecipe.java
+	a. new recipe class
+	
+	* BarrelPreservingRecipe.java
+	a. new recipe class
+	
+2.	com.bioxx.tfc.GUI
+	* GuiBarrel.java
+	a. updated drawGuiContainerBackgroundLayer()
+	
+3.	com.bioxx.tfc.WAILA
+	* WBarrel.java
+	a. updated getWailaBody()
+	
+4.	com.bioxx.tfc.TileEntities
+	* TEBarrel.java
+	a. updated updateEntity()
+	b. updated ProcessItems()
+	c. added two new recipes to registerRecipes()
